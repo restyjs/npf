@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "build": "tsc"
   },
   "dependencies": {
     "@types/node": "^18.7.23",
+    "dotenv": "^16.0.3",
     "fastify": "^4.7.0"
   },
   "devDependencies": {
