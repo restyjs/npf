@@ -24,6 +24,19 @@ const main = async () => {
   const prismaService = Container.get(PrismaService);
   await prismaService.connect();
 
+  server.get("/", async () => {
+    return { hello: "world" };
+  });
+
+  server.register(
+    function (app, _, done) {
+      app.get("/users", () => {});
+
+      done();
+    },
+    { prefix: "/v1" }
+  ); // global route prefix
+
   try {
     await server.listen({ port: 8080 });
   } catch (err) {

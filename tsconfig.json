@@ -18,6 +18,9 @@
       "@service/*": ["src/services/*"],
       "@model/*": ["src/models/*"],
       "@controller/*": ["src/controllers/*"],
+      "@middleware/*": ["src/middlewares/*"],
+      "@config/*": ["src/config/*"],
+      "@core/*": ["src/core/*"],
     }
   },
   "exclude": ["node_modules", "dist"],
