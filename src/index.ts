@@ -1,18 +1,28 @@
 import fastify from "fastify";
-import * as dotenv from "dotenv";
+import helmet from "@fastify/helmet";
+import cors from "@fastify/cors";
+import { randomBytes } from "node:crypto";
 
-const ENVIRONMENT = process.env.ENVIRONMENT;
+const main = async () => {
+  const server = fastify({
+    genReqId: () => randomBytes(8).toString("hex"),
+    logger: {
+      transport: {
+        target: "pino-pretty",
+      },
+    },
+  });
 
-console.log(`Environment: ${ENVIRONMENT}`);
+  // middleware
+  server.register(helmet);
+  server.register(cors);
 
-// Load environment variables from .env file
-switch (ENVIRONMENT) {
-  case "development":
-    dotenv.config({ path: ".env.development" });
-    break;
-  case "production":
-    dotenv.config();
-    break;
-  default:
-    dotenv.config();
-}
+  try {
+    await server.listen({ port: 8080 });
+  } catch (err) {
+    server.log.error(err);
+    process.exit(1);
+  }
+};
+
+main();
