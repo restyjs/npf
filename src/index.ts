@@ -1,7 +1,10 @@
+import "reflect-metadata";
 import fastify from "fastify";
 import helmet from "@fastify/helmet";
 import cors from "@fastify/cors";
+import { Container } from "typedi";
 import { randomBytes } from "node:crypto";
+import { PrismaService } from "@service/prisma";
 
 const main = async () => {
   const server = fastify({
@@ -16,6 +19,10 @@ const main = async () => {
   // middleware
   server.register(helmet);
   server.register(cors);
+
+  // connect to database
+  const prismaService = Container.get(PrismaService);
+  await prismaService.connect();
 
   try {
     await server.listen({ port: 8080 });
